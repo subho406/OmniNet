@@ -2,9 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-*OmniNet* is the first ever truly universal architecture for multi-modal multi-task learning. A single OmniNet architecture can encode multiple inputs from almost any real-life domain (text, image, video) and is capable of asychronous multi-task learning across a wide range of tasks. 
+*OmniNet* is the first-ever truly universal architecture for multi-modal multi-task learning. A single OmniNet architecture can encode multiple inputs from almost any real-life domain (text, image, video) and is capable of asynchronous multi-task learning across a wide range of tasks. 
 
-This repository contains the official Pytorch implemenation for <a href="https://github.com/cognibit/Text-Normalization-Demo/blob/master/notebooks/Text%20Normalization%20Demo.ipynb">OmniNet: A unified architecture for multi-modal multi-task learning</a> (Pramanik et al). The paper demonstrates a single instance of *OmniNet* jointly trained to perform the tasks of part-of-speech tagging, image captioning, visual question answering and video activity recognition. We also open source the pretrained models to be able to reproduce the results demonstrated in the paper.
+This repository contains the official Pytorch implementation for <a href="https://github.com/cognibit/Text-Normalization-Demo/blob/master/notebooks/Text%20Normalization%20Demo.ipynb">OmniNet: A unified architecture for multi-modal multi-task learning</a> (Pramanik et al). The paper demonstrates a single instance of *OmniNet* jointly trained to perform the tasks of part-of-speech tagging, image captioning, visual question answering and video activity recognition. We also open source the pre-trained models to be able to reproduce the results demonstrated in the paper.
 
 <p align="center">
 <img src="resources/omninet_architecture.png" width="700">
@@ -44,14 +44,14 @@ Pretrained models for the various single and multi-task models demonstrated in t
 
 ## Training
 
-The training script includes subroutines to train the model on the COCO Image captioning, VQA, HMDB action recognition and PENN POS tagging. First download all required datasets using `scripts/init_setup.py` as described above. The training script can be used to train both on a single task and asychronously on a multiple different tasks. It implements multi-GPU hogwild training to train a single model across multiple GPUs on multiple tasks. 
+The training script includes subroutines to train the model on the COCO Image captioning, VQA, HMDB action recognition, and PENN POS tagging. First, download all required datasets using `scripts/init_setup.py` as described above. The training script can be used to train both on a single task and asynchronously on multiple different tasks. It implements multi-GPU hogwild training to train a single model across multiple GPUs on multiple tasks. 
 
 ```
 $ python train.py <no. of training iterations> <task list> <batch sizes> --n_gpus <no. of GPUs> \
 --save_interval <save interval> --eval_interval <eval interval>
 ```
 
-The list of possible supported tasks are `vqa`, `hmdb`, `caption` and `penn`. (The data downloader in init_setup.py however does not download datasets for PENN tagging and it is required to manually download and preprocess PENN POS tagging dataset to train the model for POS tagging.)
+The list of possible supported tasks are `vqa`, `hmdb`, `caption` and `penn`. (The data downloader in init_setup.py, however, does not download datasets for PENN tagging and it is required to manually download and preprocess PENN POS tagging dataset to train the model for POS tagging.)
 
 For example, to train the model on a single task of Visual Question Answering for 100000 iterations and batch size of 128, use:
 
@@ -59,7 +59,7 @@ For example, to train the model on a single task of Visual Question Answering fo
 $ python train.py 100000 vqa 128 --n_gpus 1 --save_interval 500--eval_interval 500
 ```
 
-To train the model asynchronously on multiple tasks specify the list of tasks and batch sizes seperated by comma. For example, to train a single model jointly on VQA, HMDB and COCO captioning with batch sizes 128, 64, 128 use:
+To train the model asynchronously on multiple tasks specify the list of tasks and batch sizes separated by a comma. For example, to train a single model jointly on VQA, HMDB, and COCO captioning with batch sizes 128, 64, 128 use:
 
 ```
 $ python train.py 100000 vqa,hmdb,caption 128,64,128 --n_gpus 3 --save_interval 500--eval_interval 500
@@ -80,7 +80,7 @@ Following `<task name>` are supported:
 
 ## Prediction
 
-The prediction script can used to perform prediction on any external data for all the tasks mentioned in the paper and can also be used to perform zero-shot prediction on untrained tasks. The possible tasks are `vqa`, `hmdb`, `caption` and `penn`. The current prediction script only implements greedy decoding and we plan to implement beam search in future for improved performance. Download and extract the pretrained multi-model from the URL mentioned above.
+The prediction script can be used to perform prediction on any external data for all the tasks mentioned in the paper and can also be used to perform zero-shot prediction on untrained tasks. The possible tasks are `vqa`, `hmdb`, `caption` and `penn`. The current prediction script only implements greedy decoding and we plan to implement beam search in the future for improved performance. Download and extract the pre-trained multi-model from the URL mentioned above.
 
 ```
 $ wget https://storage.googleapis.com/omninet/all_15k.zip
@@ -117,7 +117,7 @@ Action recognition prediction: ride_horse
 
 <img src="resources/riding_horse.gif" width="425"><img src="resources/horse_pred.png" width="425">
 
-Due to the shared multi-modal representation learning architecture of the Central Neural Processor, *OmniNet* can also be used for zero-shot prediction for tasks it was not trained on. For example,the multi-model architecture can also be used for video captioning and video question answering even though the model was never trained on those tasks. The results below demonstrate the results of video captioning and video QA on a sample horse riding video. (Note: Results of zero-shot learning are still experimental and not always meaningful)
+Due to the shared multi-modal representation learning architecture of the Central Neural Processor, *OmniNet* can also be used for zero-shot prediction for tasks it was not trained on. For example, the multi-model architecture can also be used for video captioning and video question answering even though the model was never trained on those tasks. The results below demonstrate the results of video captioning and video QA on a sample horse riding video. (Note: Results of zero-shot learning are still experimental and not always meaningful)
 
 **Video captioning**
 
@@ -130,11 +130,11 @@ Caption Prediction: a person riding a horse on a beach near a body of water.
 
 **Video QA**
 ```
-python predict.py model.pth vqa --video sample_data/riding_horse.avi --text "What is he doing?"
+$ python predict.py model.pth vqa --video sample_data/riding_horse.avi --text "What is he doing?"
 VQA Prediction: riding horse
 ```
 ```
-python predict.py model.pth vqa --video sample_data/riding_horse.avi --text "Is there a man or a woman?"
+$ python predict.py model.pth vqa --video sample_data/riding_horse.avi --text "Is there a man or a woman?"
 VQA Prediction: man
 ```
 ```
