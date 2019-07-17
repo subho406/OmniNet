@@ -1,0 +1,1 @@
+from .cnp import CNP
