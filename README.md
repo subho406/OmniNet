@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-*OmniNet* is the first-ever truly universal architecture for multi-modal multi-task learning. A single OmniNet architecture can encode multiple inputs from almost any real-life domain (text, image, video) and is capable of asynchronous multi-task learning across a wide range of tasks. 
+*OmniNet* is the first-ever truly universal architecture for multi-modal multi-task learning. A single OmniNet architecture can encode multiple inputs from almost any real-life domain (text, image, video) and is capable of asynchronous multi-task learning across a wide range of tasks. The *OmniNet* architecture consists multiple sub-networks called the neural peripherals, used to encode domain specific inputs as spatio-temporal representations, connected to a common central neural network called the Central Neural Processor (CNP). The CNP implements a Transformer based universal spatio-temporal encoder and a multi-task decoder. 
 
 This repository contains the official Pytorch implementation for <a href="https://github.com/cognibit/Text-Normalization-Demo/blob/master/notebooks/Text%20Normalization%20Demo.ipynb">OmniNet: A unified architecture for multi-modal multi-task learning</a> (Pramanik et al). The paper demonstrates a single instance of *OmniNet* jointly trained to perform the tasks of part-of-speech tagging, image captioning, visual question answering and video activity recognition. We also open source the pre-trained models to be able to reproduce the results demonstrated in the paper.
 
@@ -13,6 +13,8 @@ This repository contains the official Pytorch implementation for <a href="https:
 ## Setup
 
 **Requirements**
+- Minimum hardware: 8GB RAM + NVIDIA GPU (8GB+)
+- Linux based OS
 - NVIDIA driver 410+
 - [Anaconda Package Manager](https://anaconda.org/)
 - rest will be installed by anaconda (see below)
@@ -59,7 +61,7 @@ For example, to train the model on a single task of Visual Question Answering fo
 $ python train.py 100000 vqa 128 --n_gpus 1 --save_interval 500 --eval_interval 500
 ```
 
-To train the model asynchronously on multiple tasks specify the list of tasks and batch sizes separated by a comma. For example, to train a single model jointly on VQA, HMDB, and COCO captioning with batch sizes 128, 64, 128 use:
+To train the model asynchronously on multiple tasks specify the list of tasks and batch sizes separated by a comma. For example, to train a single model jointly on VQA, HMDB, and COCO captioning with batch sizes 128, 64, 128 across three GPUs use:
 
 ```
 $ python train.py 100000 vqa,hmdb,caption 128,64,128 --n_gpus 3 --save_interval 500 --eval_interval 500
@@ -117,7 +119,7 @@ Action recognition prediction: ride_horse
 
 <img src="resources/riding_horse.gif" width="425"><img src="resources/horse_pred.png" width="425">
 
-Due to the shared multi-modal representation learning architecture of the Central Neural Processor, *OmniNet* can also be used for zero-shot prediction for tasks it was not trained on. For example, the multi-model architecture can also be used for video captioning and video question answering even though the model was never trained on those tasks. The results below demonstrate the results of video captioning and video QA on a sample horse riding video. (Note: Results of zero-shot learning are still experimental and not always meaningful)
+Due to the shared multi-modal representation learning architecture of the Central Neural Processor, *OmniNet* can also be used for zero-shot prediction for tasks it was never trained on. For example, the multi-model architecture can also be used for video captioning and video question answering even though the model was never trained on those tasks. The results below demonstrate the results of video captioning and video QA on a sample horse riding video. (Note: Results of zero-shot learning are still experimental and not always meaningful)
 
 **Video captioning**
 
@@ -149,5 +151,6 @@ VQA Prediction: brown
 4. Sayan Dutta
 
 ## Citation
+We welcome the research community to extend our work. If you find this code useful, please cite our paper:
 
 
