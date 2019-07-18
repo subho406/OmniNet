@@ -123,7 +123,10 @@ def penn(omninet,texts,pad_id=None,targets=None,target_pad_mask=None,mode='train
 def calc_nll_loss_and_acc(predictions, targets, pad_id=None, target_pad_mask=None):
     #Calculate loss
     pr = torch.reshape(predictions, [-1, predictions.shape[2]])
-    loss_fn = nn.NLLLoss(ignore_index=pad_id)
+    if pad_id is not None:
+        loss_fn = nn.NLLLoss(ignore_index=pad_id)
+    else:
+        loss_fn = nn.NLLLoss()
     targets = torch.reshape(targets, [-1])
     loss = loss_fn(pr, targets)
     #Calculate accuracy

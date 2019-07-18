@@ -56,13 +56,13 @@ The list of possible supported tasks are `vqa`, `hmdb`, `caption` and `penn`. (T
 For example, to train the model on a single task of Visual Question Answering for 100000 iterations and batch size of 128, use:
 
 ```
-$ python train.py 100000 vqa 128 --n_gpus 1 --save_interval 500--eval_interval 500
+$ python train.py 100000 vqa 128 --n_gpus 1 --save_interval 500 --eval_interval 500
 ```
 
 To train the model asynchronously on multiple tasks specify the list of tasks and batch sizes separated by a comma. For example, to train a single model jointly on VQA, HMDB, and COCO captioning with batch sizes 128, 64, 128 use:
 
 ```
-$ python train.py 100000 vqa,hmdb,caption 128,64,128 --n_gpus 3 --save_interval 500--eval_interval 500
+$ python train.py 100000 vqa,hmdb,caption 128,64,128 --n_gpus 3 --save_interval 500 --eval_interval 500
 ```
 When training on multiple tasks together it is recommended to use a multi-GPU system, or reduce batch size for each task if you run out of GPU memory. 
 
