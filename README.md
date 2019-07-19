@@ -152,5 +152,20 @@ VQA Prediction: brown
 
 ## Citation
 We welcome the research community to extend our work. If you find this code useful, please cite our paper: <a href="https://arxiv.org/abs/1907.07804">OmniNet: A unified architecture for multi-modal multi-task learning</a>
-
-
+```
+@ARTICLE{2019arXiv190707804P,
+       author = {{Pramanik}, Subhojeet and {Agrawal}, Priyanka and {Hussain}, Aman},
+        title = "{OmniNet: A unified architecture for multi-modal multi-task learning}",
+      journal = {arXiv e-prints},
+     keywords = {Computer Science - Machine Learning, Computer Science - Computation and Language, Computer Science - Computer Vision and Pattern Recognition, Computer Science - Neural and Evolutionary Computing, Statistics - Machine Learning},
+         year = "2019",
+        month = "Jul",
+          eid = {arXiv:1907.07804},
+        pages = {arXiv:1907.07804},
+archivePrefix = {arXiv},
+       eprint = {1907.07804},
+ primaryClass = {cs.LG},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2019arXiv190707804P},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+```
