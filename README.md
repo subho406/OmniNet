@@ -151,6 +151,6 @@ VQA Prediction: brown
 4. Sayan Dutta
 
 ## Citation
-We welcome the research community to extend our work. If you find this code useful, please cite our paper:
+We welcome the research community to extend our work. If you find this code useful, please cite our paper: <a href="https://arxiv.org/abs/1907.07804">OmniNet: A unified architecture for multi-modal multi-task learning</a>
 
 
