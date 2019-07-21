@@ -148,7 +148,7 @@ VQA Prediction: brown
 1. Subhojeet Pramanik (IBM Watson) <email@subho.in>
 2. Priyanka Agrawal (IBM Research) <pagrawal.ml@gmail.com>
 3. Aman Hussain (University of Amsterdam) <email@amanhussain.com>
-4. Sayan Dutta
+4. Sayan Dutta <duttasayan.7@gmail.com>
 
 ## Citation
 We welcome the research community to extend our work. If you find this code useful, please cite our paper: <a href="https://arxiv.org/abs/1907.07804">OmniNet: A unified architecture for multi-modal multi-task learning</a>
