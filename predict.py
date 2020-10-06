@@ -111,10 +111,22 @@ def extract_pixels_from_image(image):
     return img
 
 
+def download_model(task):
+    try:
+        if not os.path.isfile('model.pth'):
+            with open('checkpoint_urls.json') as f:
+                os.system(f'wget {json.loads(f.read())[task]} -O model_file.zip')
+                os.system('unzip model_file.zip')
+                os.system('rm -rf model_file.zip')
+    except Exception as e:
+        raise e
+
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='OmniNet prediction script.')
-    parser.add_argument('model_file', help='Location to pretrained model file.')
     parser.add_argument('task', help='Task to predict for.')
+    parser.add_argument('--model_file', default='model.pth', help='Location to pretrained model file.')
     parser.add_argument('--image', default=None, help='Image file to encode')
     parser.add_argument('--video', default=None, help='Video file to encodre')
     parser.add_argument('--text', default=None, help='Text to encode')
@@ -129,6 +141,7 @@ if __name__ == "__main__":
     if verbose==False:
         sys.stdout = open(os.devnull, 'w')
     #Load Omninet model
+    download_model(task)
     model = omninet.OmniNet(gpu_id=0)
     model.restore_file(model_file)
     model=model.to(0)

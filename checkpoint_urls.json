@@ -1,0 +1,7 @@
+{
+    "vqa" : "https://storage.googleapis.com/omninet/200k_vqa.zip",
+    "caption" : "https://storage.googleapis.com/omninet/280k_caption.zip",
+    "hmdb" : "https://storage.googleapis.com/omninet/11k_hmdb.zip",
+    "penn" : "https://storage.googleapis.com/omninet/70k_penn.zip",
+    "all" : "https://storage.googleapis.com/omninet/all_15k.zip"
+}
