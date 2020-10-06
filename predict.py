@@ -112,6 +112,9 @@ def extract_pixels_from_image(image):
 
 
 def download_model(task):
+    """
+    Download the pre-trained model files if not present in current directory.
+    """
     try:
         if not os.path.isfile('model.pth'):
             with open('checkpoint_urls.json') as f:
