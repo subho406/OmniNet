@@ -94,24 +94,24 @@ $ unzip all_15k.zip
 
 **POS tagging**
 ```
-$ python predict.py model.pth penn --text "there is no dark side of the moon really, as a matter of fact its all dark"
+$ python predict.py penn --text "there is no dark side of the moon really, as a matter of fact its all dark"
 POS tagging Prediction:  EX VBZ RB VBN IN DT NN IN NN PRP$ DT NN IN NN PRP$ DT JJ
 ```
 **Image captioning**
 ```
-$ python predict.py model.pth caption --image sample_data/kids-hand-signals.jpg 
+$ python predict.py caption --image sample_data/kids-hand-signals.jpg 
 Caption Prediction: a person riding a bike on a city street
 ```
 
 **Visual Question Answering**
 ```
-$ python predict.py model.pth vqa --image sample_data/kids-hand-signals.jpg --text "What is the kid driving?"
+$ python predict.py vqa --image sample_data/kids-hand-signals.jpg --text "What is the kid driving?"
 VQA Prediction: bike
 ```
 
 **Video action recognition**
 ```
-$ python predict.py model.pth hmdb --video sample_data/riding_horse.avi 
+$ python predict.py hmdb --video sample_data/riding_horse.avi 
 Action recognition prediction: ride_horse
 ```
 
@@ -126,21 +126,21 @@ Due to the shared multi-modal representation learning architecture of the Centra
 The same prediction script can be used for video captioning. But instead of providing an image we provide a raw video file for prediction:
 
 ```
-$ python predict.py model.pth caption --video sample_data/riding_horse.avi
+$ python predict.py caption --video sample_data/riding_horse.avi
 Caption Prediction: a person riding a horse on a beach near a body of water.
 ```
 
 **Video QA**
 ```
-$ python predict.py model.pth vqa --video sample_data/riding_horse.avi --text "What is he doing?"
+$ python predict.py vqa --video sample_data/riding_horse.avi --text "What is he doing?"
 VQA Prediction: riding horse
 ```
 ```
-$ python predict.py model.pth vqa --video sample_data/riding_horse.avi --text "Is there a man or a woman?"
+$ python predict.py vqa --video sample_data/riding_horse.avi --text "Is there a man or a woman?"
 VQA Prediction: man
 ```
 ```
-$ python predict.py model.pth vqa --video sample_data/riding_horse.avi --text "What color is the horse?"
+$ python predict.py vqa --video sample_data/riding_horse.avi --text "What color is the horse?"
 VQA Prediction: brown
 ```
 
