@@ -13,20 +13,9 @@ if os.path.basename(os.path.abspath('.')) == 'scripts':
     os.chdir('..')
 
 
-def print_gen(level, msg):
-    print(f'[{level}] init_setup:', msg)
-
-
-def print_error(msg):
-    print_gen('error', msg)
-
-
-def print_info(msg):
-    print_gen('info', msg)
-
-
-def do_task(task):
-    return lambda: os.system(task)
+print_error = lambda msg: print('[error] init_setup:', msg)
+print_info = lambda msg: print('[info] init_setup:', msg)
+do_task = lambda task: os.system(task)
 
 
 # contains a map of directories inside data to the download sites
