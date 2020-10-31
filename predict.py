@@ -110,44 +110,47 @@ def extract_pixels_from_image(image):
     img=img.unsqueeze(0)
     return img
 
-def image_filenames(folder):
-    """
-    Returns list of images in a folder that are in correct format.
-    Images are checked using OpenCV imread()
-    """
-    img_files = []
-    for filename in os.listdir(folder):
-        img = cv2.imread(os.path.join(folder,filename))
-        if img is not None:
-            img_files.append(os.path.join(folder,filename))
-    return img_files
 
-
-def download_model(task):
-    """
-    Download the pre-trained model files if not present in current directory.
-    """
-    try:
-        if not os.path.isfile('model.pth'):
-            with open('checkpoint_urls.json') as f:
-                os.system(f'wget {json.loads(f.read())[task]} -O model_file.zip')
-                os.system('unzip model_file.zip')
-                os.system('rm -rf model_file.zip')
-    except Exception as e:
-        raise e
-
-
-def decoding(task, model):
-    """
-    Returns decoded text based on task
-    """
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='OmniNet prediction script.')
+    parser.add_argument('model_file', help='Location to pretrained model file.')
+    parser.add_argument('task', help='Task to predict for.')
+    parser.add_argument('--image', default=None, help='Image file to encode')
+    parser.add_argument('--video', default=None, help='Video file to encodre')
+    parser.add_argument('--text', default=None, help='Text to encode')
+    parser.add_argument('-v', '--verbose', action='store_true')
+    args = parser.parse_args()
+    model_file=args.model_file
+    task=args.task
+    image=args.image
+    video=args.video
+    text=str(args.text)
+    verbose=args.verbose
+    if verbose==False:
+        sys.stdout = open(os.devnull, 'w')
+    #Load Omninet model
+    model = omninet.OmniNet(gpu_id=0)
+    model.restore_file(model_file)
+    model=model.to(0)
+    model=model.eval()
+    model.reset(1)
+    if image is not None:
+        image=extract_pixels_from_image(image)
+        image=image.to(0)
+        model.encode_images(image)
+    if text is not None:
+        model.encode_englishtexts([text])
+    if video is not None:
+        video=extract_frames_from_video(video)
+        video=video.to(0)
+        model.encode_videos(video)
+    if verbose==False:
+        sys.stdout = sys.__stdout__
     if task=='caption':
-        prediction = model.decode_greedy('IMAGE_CAPTION',num_steps=100)
+        prediction=model.decode_greedy('IMAGE_CAPTION',num_steps=100)
         prediction = prediction.argmax(-1)
         prediction = model.english_language_perph.decode_tokens(prediction)
-        # print('Caption Prediction: %s'%prediction[0])
-        return prediction[0]
-
+        print('Caption Prediction: %s'%prediction[0])
     elif task=='hmdb':
         prediction = model.decode_greedy('HMDB', num_steps=1)
         prediction = prediction.argmax(-1).cpu().tolist()[0][0]
@@ -158,8 +161,7 @@ def decoding(task, model):
             id,label=l.split(' ')
             id_to_label[id]=label
         prediction=id_to_label[str(prediction)]
-        # print('Action recognition prediction: %s'%prediction)
-        return prediction
+        print('Action recognition prediction: %s'%prediction)
 
     elif task=='vqa':
         prediction = model.decode_greedy('VQA', num_steps=1)
@@ -167,8 +169,7 @@ def decoding(task, model):
         with open(vqa_vocab_file,'rb') as f:
             ans_to_id,id_to_ans=pickle.loads(f.read())
         prediction=id_to_ans[prediction]
-        # print('VQA Prediction: %s'%prediction)
-        return prediction
+        print('VQA Prediction: %s'%prediction)
 
     elif task=='penn':
         if text is None:
@@ -181,63 +182,7 @@ def decoding(task, model):
         penn_text=''
         for p in prediction:
             penn_text='%s %s'%(penn_text,id_to_tag[str(p)])
-        # print('POS tagging Prediction: %s'%penn_text)
-        return penn_text
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='OmniNet prediction script.')
-    parser.add_argument('task', help='Task to predict for.')
-    parser.add_argument('--model_file', default='model.pth', help='Location to pretrained model file.')
-    parser.add_argument('--image', default=None, help='Image file to encode')
-    parser.add_argument('--image_folder', default=None, help='Image folder path')
-    parser.add_argument('--video', default=None, help='Video file to encodre')
-    parser.add_argument('--text', default=None, help='Text to encode')
-    parser.add_argument('-v', '--verbose', action='store_true')
-    args = parser.parse_args()
-    model_file=args.model_file
-    task=args.task
-    image=args.image
-    image_folder=args.image_folder
-    video=args.video
-    text=str(args.text)
-    verbose=args.verbose
-    if verbose==False:
-        sys.stdout = open(os.devnull, 'w')
-    #Load Omninet model
-    download_model(task)
-    model = omninet.OmniNet(gpu_id=0)
-    model.restore_file(model_file)
-    model=model.to(0)
-    model=model.eval()
-    print_decor = {'caption':'Caption Prediction:','hmdb':'Action recognition prediction:',
-                   'vqa':'VQA Prediction:', 'penn':'POS tagging Prediction:'}
-    if verbose==False:
-        sys.stdout = sys.__stdout__
-
-    if image_folder != None:
-        for im in image_filenames(image_folder):
-            name = im
-            model.reset(1)
-            im=extract_pixels_from_image(im)
-            im=im.to(0)
-            model.encode_images(im)
-            print(name,' == %s'%decoding(task, model))
-    else:
-        if image is not None:
-            image=extract_pixels_from_image(image)
-            image=image.to(0)
-            model.encode_images(image)
-        if text is not None:
-            model.encode_englishtexts([text])
-        if video is not None:
-            video=extract_frames_from_video(video)
-            video=video.to(0)
-            model.encode_videos(video)
-        print(print_decor[task], decoding(task, model))
-    
-    
-    
+        print('POS tagging Prediction: %s'%penn_text)
 
 
         
